@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        table {
+            margin: 20px auto;
+            background-color: #fff;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        #lbl1 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>Name:</td><td><input type="text" id="name"></td>
+        </tr>
+        <tr>
+            <td>Number of Pineapple:</td><td><input type="text" id="quantity"></td>
+        </tr>
+        <tr>
+            <td>Home Delivery:</td><td><input type="radio" id="hd" name="r">Yes &nbsp;<input name="r" type="radio" id="hd" value="no">No</td>
+        </tr>
+        <tr>
+            <td>City:</td><td><select id="city">
+                <option value="1">Dhaka</option>
+                <option value="2">Chittagong</option>
+            </td>
+        </tr>
+        <tr>
+            <td>Tip:</td><td><input type="text" id="tip">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="Calculate" onclick="calculate();"></td>
+        </tr>
+        
+    </table>
+    <label id="lbl1"></label>
+
+    <script>
+        function calculate(){
+            let quantity = Number(document.getElementById('quantity').value);
+            let hd = Number(document.getElementById('hd').checked);
+            let city = Number(document.getElementById('city').value);
+            let tip = Number(document.getElementById('tip').value);
+            let bill;
+            bill = quantity * 12.5;
+            if(quantity>=20){ // discount 20%
+                bill = bill * 0.8;
+            }
+            else if(quantity>=10){ // discount 15%
+                bill = bill * 0.85;
+            }
+            else{ // discount 10%
+                bill = bill * 0.90;
+            }
+        
+            if(hd){ // if home delivery is Yes, add 40 BDT, if no, do nothing
+                bill = bill + 40;
+            }
+            if(city == 1) // 1 == dhaka, add 20% Tax
+            {
+                bill = bill * 1.20;
+            }
+            else if(city == 2){ // 2 == chittagong, add 20% tax
+                bill = bill * 1.10;
+            }
+            bill = bill + tip; // add tip as it is. 
+            document.getElementById('lbl1').innerText = 'Total Bill: ' + bill.toFixed(2) + ' BDT';
+        }
+    </script>
+</body>
+</html>
